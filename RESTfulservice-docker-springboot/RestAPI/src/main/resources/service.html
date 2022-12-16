@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>REST</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://use.fontawesome.com/edfa7e6ae2.js"></script>
+</head>
+<body>
+
+<div class="container-fluid p-2 bg-primary text-white text-center">
+  <div class="header"> <img src ="rest.png" width ="100%" height="200px">
+  </div>
+
+</div>
+  
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8">
+      <h3>List Of Customers</h3>
+      <div class="table-responsive">
+        <table class="table" id="message"></table>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div id="customerDetails" hidden>
+        <h4>User Details</h4>
+      </div>
+    </div>
+  </div>
+</div>
+  
+        
+<div class="container">
+  <div class="navigate" style="text-align:center">
+      <h2>CUSTOMERS</h2>
+  </div>
+ <main class="main" style="text-align:center">
+  
+      
+      <div style="text-align:center"> 
+          
+          <div style="text-align:center"> 
+              <h1>WELCOME TO BDATA</h1>
+              
+          <br><br>
+          <p>
+              <img src ="welc.webp" width ="100%" height="200px">
+       </p>
+          <br><br>
+            <p>
+        </div> 
+</main>
+  <div class="aside" style="text-align:center">
+      <h2>WELCOME</h2>
+  </div>
+</div>
+<div class="container mt-5" id="orderDiv" hidden>
+  <div class="row">
+    <div class="col-md-8">
+      <h3>List Of Orders</h3>
+      <div class="table-responsive">
+        <table class="table" id="orderDetails"></table>
+      </div>
+    </div>
+    <div class="col-md-4" id="particularOrderDiv" hidden>
+        <div class="table-responsive">
+        <table class="table" id="particularOrderDetails"></table>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  
+$(document).ready(function () {
+          
+    // -- Fetch all the customers data on page load
+    $.ajax({
+                type: "GET",
+                url: "http://localhost:8081/customers",
+                dataType: "json",
+                success: function (result, status, xhr) {
+                    console.log(result);
+                    var rs = $.parseJSON(JSON.stringify(result));;
+                    var table = $("<thead><tr><th scope='col'>#</th><th scope='col'>First Name</th><th scope='col'>Region</th><th scope='col'>Phone Number</th><th scope='col' colspan='2'></th></tr></thead>");
+                    $.each( rs.Customers, function(i) {
+                    table.append("<tr><td>" + rs.Customers[i]["userId"] + "</td> <td>" + rs.Customers[i]["firstName"] + "</td> <td>" + rs.Customers[i]["region"] + "</td> <td>" + rs.Customers[i]["phoneNumber"] + "</td> <td><button class='btn btn-primary viewDetails' value="+ rs.Customers[i]["userId"] +" > <i class='fa fa-eye fa-fw'></i> View Details</button> <button class='btn btn-warning orderDetails' value="+ rs.Customers[i]["userId"] +" > <i class='fa fa-book fa-fw'></i> View Orders</button></td></tr>");
+                    });
+                    $("#message").html(table);
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+    });
+        
+            
+    // -- To Fetch Data of a particular user
+    $(document).on('click', '.viewDetails',function(i){
+      //debugger;
+        var userId = $(this).val();
+
+        $.ajax({
+                type: "GET",
+                url: "http://localhost:8081/customers/" + userId,
+                dataType: "json",
+                success: function (result, status, xhr) {
+                    
+                    console.log(result);
+                    
+                    var table1 = $("<table class='table table-bordered'>");
+                    table1.append("<tr><td>User Id:</td><td>" + result["userId"] + "</td></tr>");
+                    table1.append("<tr><td>User Name:</td><td>" + result["firstName"] +  " " + result["lastName"] +"</td></tr>");
+                    table1.append("<tr><td>Phone Number:</td><td>" + result["phoneNumber"] + "</td></tr>");
+                    table1.append("<tr><td>Region:</td><td>" + result["region"] + "</td></tr>");
+                    table1.append("<tr><td>Address:</td><td>" + result["shippingAddress"] + "</td></tr>");
+
+                    $("#customerDetails").removeAttr("hidden");
+                    $("#customerDetails").html(table1);
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+
+    });
+
+
+    // -- To Fetch Order Details of a particular user
+    $(document).on('click', '.orderDetails',function(i){
+      //debugger;
+      $("#particularOrderDiv").hide();
+        var userId = $(this).val();
+
+        $.ajax({
+                type: "GET",
+                url: "http://localhost:8081/customers/" + userId + "/orders" ,
+                dataType: "json",
+                success: function (result, status, xhr) {
+                    
+                    console.log(result);
+                    
+                    var rs = $.parseJSON(JSON.stringify(result));;
+                    var table = $("<thead><tr><th scope='col'>Order Id</th><th scope='col'>User Id</th><th scope='col'>Grant Total</th><th scope='col' colspan='2'>Currency</th></tr></thead>");
+                    $.each( rs, function(i) {
+                    table.append("<tr><td>" + rs[i]["orderId"] + "</td> <td>" + userId + "</td> <td>" + rs[i]["grandTotal"] + "</td> <td>" + rs[i]["currency"] + "</td><td><button class='btn btn-primary particularOrderDetails' name="+ userId +" value="+ rs[i]["orderId"] +" > <i class='fa fa-eye fa-fw'></i> Order Details</button></td></tr>");
+                    });
+                    
+
+                    $("#orderDiv").removeAttr("hidden");
+                    $("#orderDetails").html(table);
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+
+    });
+
+
+    // -- To Fetch Particular users Particular Order
+    $(document).on('click', '.particularOrderDetails',function(i){
+      //debugger;
+        var userId = $(this).attr('name');
+        console.log(userId);
+        var orderId = $(this).val();
+        console.log(orderId);
+
+        $.ajax({
+                type: "GET",
+                url: "http://localhost:8081/customers/" + userId + "/orders/" + orderId ,
+                dataType: "json",
+                success: function (result, status, xhr) {
+                    
+                    console.log(result.lineItems);
+                    
+                    var rs = $.parseJSON(JSON.stringify(result.lineItems));;
+                    var table = $("<thead><tr><th scope='col'>Order Id</th><th scope='col'>SKU</th><th scope='col'>Product Name</th><th scope='col' colspan='2'>Price</th></tr></thead>");
+                    $.each( rs, function(i) {
+                    table.append("<tr><td>" + orderId + "</td> <td>" + rs[i]["sku"]+ "</td> <td>" + rs[i]["name"] + "</td> <td>" + rs[i]["totalPrice"] + "</td></tr>");
+                    });
+                    
+
+                    $("#particularOrderDiv").removeAttr("hidden");
+                    $("#particularOrderDiv").show();
+                    $("#particularOrderDetails").html(table);
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                }
+            });
+
+    });
+        
+});
+
+</script>
+</body>
+</html>

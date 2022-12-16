@@ -1,0 +1,126 @@
+{
+  "Customers": [
+    {
+      "userId": 1,
+      "firstName": "Neerav",
+      "lastName": "Poriya",
+      "region": "New Jersey",
+      "phoneNumber": "7021810856",
+      "emailAddress": "neeravporiya@gmail.com",
+      "shippingAddress": "142 St Pauls Ave, 1F, JC, NJ 07306",
+      "Orders": [
+        {
+          "orderId": "123",
+          "currency": "USD",
+          "subtotal": 35.98,
+          "discountAmount": 0,
+          "taxAmount": 0,
+          "grandTotal": 35.98,
+          "lineItems": [
+            {
+              "sku": "576879",
+              "name": "Shirt",
+              "description": "A super great description of the product",
+              "category": "Shirts > T-Shirts > Blue",
+              "unitPrice": 11.99,
+              "salePrice": 11.99,
+              "quantity": 2,
+              "totalPrice": 23.98
+            },
+            {
+              "sku": "1112296",
+              "name": "Fleece Jacket",
+              "description": "A well appointed Fleece jacket",
+              "category": "Jackets > Winter > Fleece",
+              "other": "This can be any string value you like",
+              "unitPrice": 65.99,
+              "salePrice": 55.5,
+              "quantity": 1,
+              "totalPrice": 55.5
+            }
+          ]
+        },
+        {
+          "orderId": "124",
+          "currency": "USD",
+          "subtotal": 11.99,
+          "discountAmount": 0.99,
+          "taxAmount": 0,
+          "grandTotal": 11,
+          "lineItems": [
+            {
+              "sku": "576880",
+              "name": "Shirt",
+              "description": "A super great description of the product",
+              "category": "Shirts > White",
+              "unitPrice": 11.99,
+              "salePrice": 11.99,
+              "quantity": 1,
+              "totalPrice": 11.99
+            }
+          ]
+        },
+        {
+          "orderId": "125",
+          "currency": "USD",
+          "subtotal": 58.01,
+          "discountAmount": 0,
+          "taxAmount": 0,
+          "grandTotal": 58.01,
+          "lineItems": [
+            {
+              "sku": "93782101",
+              "name": "Poly Fleece",
+              "description": "A super great description of the product",
+              "category": "Jackets > Winter > Fleece",
+              "unitPrice": 17.99,
+              "salePrice": 17.99,
+              "quantity": 1,
+              "totalPrice": 17.99
+            },
+            {
+              "sku": "93831749",
+              "name": "Logo Beanie",
+              "description": "A Red Beanie",
+              "category": "Accessory > Cap > Beanie",
+              "other": "This can be any string value you like",
+              "unitPrice": 65.99,
+              "salePrice": 55.5,
+              "quantity": 1,
+              "totalPrice": 55.5
+            },
+            {
+              "sku": "92033407",
+              "name": "Camo Hoodie",
+              "description": "A well appointed Fleece jacket",
+              "category": "Jackets > Hoodie > White",
+              "other": "This can be any string value you like",
+              "unitPrice": 59.95,
+              "salePrice": 29.98,
+              "quantity": 1,
+              "totalPrice": 29.98
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "userId": 2,
+      "firstName": "Anil",
+      "lastName": "Poriya",
+      "region": "California",
+      "phoneNumber": "7021810855",
+      "emailAddress": "anilporiya@gmail.com",
+      "shippingAddress": "142 St Pauls Ave, 1F, JC, NJ 07306"
+    },
+    {
+      "userId": 3,
+      "firstName": "Mehul",
+      "lastName": "Jikadra",
+      "region": "New York",
+      "phoneNumber": "7021810777",
+      "emailAddress": "mehuljikadra@gmail.com",
+      "shippingAddress": "1 Pace Plaza, NY, NY 10032"
+    }
+  ]
+}
